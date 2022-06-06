@@ -1,21 +1,16 @@
 package com.example.mystore
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.mystore.base.BaseActivity
 import com.example.mystore.databinding.MainContentBinding
 import com.example.mystore.ui.theme.MyStoreTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: MainContentBinding
     private lateinit var navController: NavController
@@ -26,10 +21,15 @@ class MainActivity : ComponentActivity() {
 
         binding = MainContentBinding.inflate(layoutInflater)
 
-//        navHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//        navController = navHostFragment.navController
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
+        binding.composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+        }
+
+        setContentView(binding.root)
     }
 }
 
@@ -37,6 +37,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     MyStoreTheme {
-
     }
 }
